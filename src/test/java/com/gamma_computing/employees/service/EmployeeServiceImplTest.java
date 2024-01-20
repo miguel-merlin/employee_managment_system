@@ -1,4 +1,4 @@
-package com.gamma_computing.employees;
+package com.gamma_computing.employees.service;
 
 import com.gamma_computing.employees.model.Employee;
 import com.gamma_computing.employees.repository.EmployeeRepository;

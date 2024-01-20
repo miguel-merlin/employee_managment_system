@@ -1,4 +1,4 @@
-package com.gamma_computing.employees;
+package com.gamma_computing.employees.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gamma_computing.employees.controller.EmployeeController;
