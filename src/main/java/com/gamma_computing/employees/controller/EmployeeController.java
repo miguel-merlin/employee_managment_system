@@ -36,7 +36,12 @@ public class EmployeeController {
     }
 
     @DeleteMapping
-    public void deleteEmployee(String employeeId) {
+    public void deleteEmployee(@Param("employeeId") String employeeId) {
         employeeService.deleteEmployee(Long.parseLong(employeeId));
+    }
+
+    @GetMapping("salary")
+    public int getEmployeeYearlySalary(@Param("employeeId") String employeeId) {
+        return employeeService.getEmployeeYearlySalary(Long.parseLong(employeeId));
     }
 }

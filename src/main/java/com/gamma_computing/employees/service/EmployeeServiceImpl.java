@@ -12,6 +12,8 @@ import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl  implements EmployeeService {
+    int MONTHS_IN_YEAR = 12;
+
     @Autowired
     EmployeeRepository employeeRepository;
 
@@ -63,6 +65,16 @@ public class EmployeeServiceImpl  implements EmployeeService {
             employeeRepository.deleteById(employeeId);
         } catch (Exception e) {
             throw  new RuntimeException("Error deleting employee");
+        }
+    }
+
+    @Override
+    public int getEmployeeYearlySalary(Long employeeId) {
+        try {
+            Employee employee = getEmployee(employeeId);
+            return employee.getMonthlySalary() * MONTHS_IN_YEAR;
+        } catch (Exception e) {
+            throw new RuntimeException("Error calculating yearly salary");
         }
     }
 }
