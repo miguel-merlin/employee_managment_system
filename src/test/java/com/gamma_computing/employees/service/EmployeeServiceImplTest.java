@@ -2,16 +2,15 @@ package com.gamma_computing.employees.service;
 
 import com.gamma_computing.employees.model.Employee;
 import com.gamma_computing.employees.repository.EmployeeRepository;
-import com.gamma_computing.employees.service.EmployeeServiceImpl;
 import jakarta.persistence.EntityNotFoundException;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -21,7 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class EmployeeServiceImplTest {
     @Mock
@@ -34,7 +33,7 @@ public class EmployeeServiceImplTest {
     private Long employeeId;
     private int salary = 3000;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         employeeId = 1L;
         employee = new Employee(
@@ -74,11 +73,13 @@ public class EmployeeServiceImplTest {
         verify(employeeRepository, times(1)).findById(employeeId);
     }
 
-    @Test(expected = EntityNotFoundException.class)
+    @Test
     public void testGetEmployeeNotFound() {
         when(employeeRepository.findById(employeeId)).thenReturn(Optional.empty());
 
-        employeeService.getEmployee(employeeId);
+        assertThrows(EntityNotFoundException.class, () -> {
+            employeeService.getEmployee(employeeId);
+        });
     }
 
     @Test
