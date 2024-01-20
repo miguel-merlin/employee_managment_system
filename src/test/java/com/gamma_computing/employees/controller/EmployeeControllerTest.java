@@ -1,6 +1,7 @@
 package com.gamma_computing.employees.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gamma_computing.employees.controller.EmployeeController;
 import com.gamma_computing.employees.model.Employee;
 import com.gamma_computing.employees.service.EmployeeService;
@@ -32,7 +33,8 @@ public class EmployeeControllerTest {
     @InjectMocks
     private EmployeeController employeeController;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper = new ObjectMapper()
+            .registerModule(new JavaTimeModule());
     private int SALARY = 5000;
     private int MONTHS_IN_YEAR = 12;
 
@@ -82,11 +84,11 @@ public class EmployeeControllerTest {
         given(employeeService.createEmployee(any(Employee.class))).willReturn(employee);
 
         mockMvc.perform(
-                post("/api/v1/employee")
+                post("/api/v1/employee/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(employee))
         )
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id").value(employee.getId()));
     }
 
@@ -96,7 +98,7 @@ public class EmployeeControllerTest {
         given(employeeService.updateEmployee(any(Employee.class))).willReturn(employee);
 
         mockMvc.perform(
-                put("/api/v1/employee")
+                put("/api/v1/employee/")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(employee))
         )

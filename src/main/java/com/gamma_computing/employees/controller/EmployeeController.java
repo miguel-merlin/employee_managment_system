@@ -5,6 +5,7 @@ import com.gamma_computing.employees.service.EmployeeService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,12 +21,13 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
-    @GetMapping
-    public Employee getEmployee(@Param("employeeId") String employeeId) {
-        return employeeService.getEmployee(Long.parseLong(employeeId));
+    @GetMapping("/{employeeId}")
+    public Employee getEmployee(@PathVariable Long employeeId) {
+        return employeeService.getEmployee(employeeId);
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Employee createEmployee(@RequestBody Employee employee) {
         return employeeService.createEmployee(employee);
     }
@@ -35,13 +37,13 @@ public class EmployeeController {
         return employeeService.updateEmployee(employee);
     }
 
-    @DeleteMapping
-    public void deleteEmployee(@Param("employeeId") String employeeId) {
-        employeeService.deleteEmployee(Long.parseLong(employeeId));
+    @DeleteMapping("/{employeeId}")
+    public void deleteEmployee(@PathVariable Long employeeId) {
+        employeeService.deleteEmployee(employeeId);
     }
 
-    @GetMapping("salary")
-    public int getEmployeeYearlySalary(@Param("employeeId") String employeeId) {
-        return employeeService.getEmployeeYearlySalary(Long.parseLong(employeeId));
+    @GetMapping("/salary/{employeeId}")
+    public int getEmployeeYearlySalary(@PathVariable Long employeeId) {
+        return employeeService.getEmployeeYearlySalary(employeeId);
     }
 }
