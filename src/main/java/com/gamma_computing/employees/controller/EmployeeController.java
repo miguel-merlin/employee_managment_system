@@ -3,9 +3,11 @@ package com.gamma_computing.employees.controller;
 import com.gamma_computing.employees.model.Employee;
 import com.gamma_computing.employees.service.EmployeeService;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +24,13 @@ public class EmployeeController {
     }
 
     @GetMapping("/{employeeId}")
-    public Employee getEmployee(@PathVariable Long employeeId) {
-        return employeeService.getEmployee(employeeId);
+    public ResponseEntity<?> getEmployee(@PathVariable Long employeeId) {
+        try {
+            Employee employee = employeeService.getEmployee(employeeId);
+            return ResponseEntity.ok(employee);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @PostMapping

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.gamma_computing.employees.controller.EmployeeController;
 import com.gamma_computing.employees.model.Employee;
 import com.gamma_computing.employees.service.EmployeeService;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -76,6 +77,19 @@ public class EmployeeControllerTest {
         mockMvc.perform(get("/api/v1/employee/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(employee.getId()));
+    }
+
+    @Test
+    void getEmployeeTestNotFound() throws Exception {
+        long nonExistentId = 999L;
+        String expectedErrorMessage = "Employee with id " + nonExistentId + " not found";
+
+        given(employeeService.getEmployee(nonExistentId))
+                .willThrow(new EntityNotFoundException(expectedErrorMessage));
+
+        mockMvc.perform(get("/api/v1/employee/" + nonExistentId))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(expectedErrorMessage));
     }
 
     @Test
