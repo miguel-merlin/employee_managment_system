@@ -21,7 +21,6 @@ public class Employee {
     private String username;
 
     private LocalDate startDate;
-
     @Column(nullable = true)
     private LocalDate endDate;
 
