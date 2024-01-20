@@ -1,13 +1,11 @@
 package com.gamma_computing.employees.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -21,5 +19,10 @@ public class Employee {
     private String name;
     private String lastName;
     private String username;
+
+    private LocalDate startDate;
+
+    @Column(nullable = true)
+    private LocalDate endDate;
 
 }
