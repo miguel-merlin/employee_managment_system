@@ -24,4 +24,6 @@ public class Employee {
     @Column(nullable = true)
     private LocalDate endDate;
 
+    private int monthlySalary;
+
 }
